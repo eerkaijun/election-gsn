@@ -1,0 +1,24 @@
+{
+  "name": "election-gsn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@openzeppelin/contracts-ethereum-package": "^2.5.0",
+    "@openzeppelin/gsn-helpers": "^0.2.3",
+    "@openzeppelin/upgrades": "^2.8.0",
+    "lite-server": "^2.3.0"
+  },
+  "dependencies": {
+    "truffle-flattener": "^1.4.3"
+  }
+}
