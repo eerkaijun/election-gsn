@@ -1,8 +1,8 @@
 pragma solidity ^0.5.0;
 
-import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol";
+import "@opengsn/gsn/contracts/BaseRelayRecipient.sol";
 
-contract Election is GSNRecipient {
+contract Election is BaseRelayRecipient {
 
   struct Candidate{
     uint id;
@@ -29,14 +29,15 @@ contract Election is GSNRecipient {
   }
 
   function vote(uint _candidateId) public {
-    require(!voters[msg.sender]);
+    require(!voters[_msgSender()]);
     require(_candidateId > 0 && _candidateId <= candidatesCount);
-    voters[msg.sender] = true;
+    voters[_msgSender()] = true;
     candidates[_candidateId].voteCount++;
   }
 
   event votedEvent(uint indexed _candidateId);
 
+  /*
   function acceptRelayedCall(
         address relay,
         address from,
@@ -55,6 +56,6 @@ contract Election is GSNRecipient {
   }
 
   function _postRelayedCall(bytes memory context, bool, uint256 actualCharge, bytes32) internal {
-  }
+  }*/
 
 }
