@@ -19,6 +19,8 @@ contract Election is BaseRelayRecipient {
   uint public candidatesCount;
 
   constructor() public {
+    //trustedForwarder = <argument passed>;
+    trustedForwarder = address(0xcC87aa60a6457D9606995C4E7E9c38A2b627Da88);
     addCandidate("Eer Kai Jun");
     addCandidate("Lim Zhi Hsuan");
   }
@@ -36,26 +38,5 @@ contract Election is BaseRelayRecipient {
   }
 
   event votedEvent(uint indexed _candidateId);
-
-  /*
-  function acceptRelayedCall(
-        address relay,
-        address from,
-        bytes calldata encodedFunction,
-        uint256 transactionFee,
-        uint256 gasPrice,
-        uint256 gasLimit,
-        uint256 nonce,
-        bytes calldata approvalData,
-        uint256 maxPossibleCharge
-    ) external view returns (uint256, bytes memory) {
-        return _approveRelayedCall();
-    }
-
-  function _preRelayedCall(bytes memory context) internal returns (bytes32) {
-  }
-
-  function _postRelayedCall(bytes memory context, bool, uint256 actualCharge, bytes32) internal {
-  }*/
 
 }
