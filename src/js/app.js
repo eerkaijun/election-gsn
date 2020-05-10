@@ -1,3 +1,39 @@
+//const { RelayProvider } = require('@opengsn/gsn')
+//const configuration = { relayHubAddress: relayHub.address, stakeManagerAddress: stakeManager.address };
+//const provider = new RelayProvider(web3.currentProvider, configuration);
+//const web3 = new Web3(provider);
+
+const conf = {
+	target:    '0x022E6D19FDfD34E876424cb69f0626d387d93453',
+	paymaster: '0x580d8b8118324c6A0C7eb17DB603D558059e344D',
+	relayhub:  '0xEF46DD512bCD36619a6531Ca84B188b47D85124b',
+	stakemgr:  '0x41c7C7c1Bf501e2F43b51c200FEeEC87540AC925',
+	gasPrice:  20000000000   // 20 Gwei
+};
+
+const Gsn = require("@opengsn/gsn/dist/src/relayclient/");
+const RelayProvider = Gsn.RelayProvider;
+
+const configureGSN = require('@opengsn/gsn/dist/src/relayclient/GSNConfigurator').configureGSN;
+
+//const ethers = require("ethers")
+const gsnConfig = configureGSN({
+	relayHubAddress: conf.relayhub,
+	paymasterAddress: conf.paymaster,
+	stakeManagerAddress: conf.stakemgr,
+	gasPriceFactorPercent: 70,
+	methodSuffix: '_v4',
+	jsonStringifyRequest: true,
+	chainId: 3,
+	relayLookupWindowBlocks: 1e5
+})    // gsnConfig
+
+//const origProvider = window.ethereum;
+//const gsnProvider = new RelayProvider(origProvider, gsnConfig);
+//const provider = new ethers.providers.Web3Provider(gsnProvider);
+
+const gsnProvider = new RelayProvider(web3.currentProvider, gsnConfig);
+
 App = {
   web3Provider: null,
   contracts: {},
@@ -8,8 +44,14 @@ App = {
   },
 
   initWeb3: function() {
+
+		//
+		//ethereum.enable();
+		//web3 = new Web3(gsnProvider);
+
     if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider;
+      //App.web3Provider = web3.currentProvider;
+			App.web3Provider = gsnProvider;
       ethereum.enable();
       web3 = new Web3(web3.currentProvider);
     } else {
@@ -95,14 +137,14 @@ App = {
       console.error(err);
     });
   },
-  
+
   /*
   getVotingTicket: function() {
     App.contracts.Vote.deployed().then(function(instance) {
       return instance.mint({from: App.account});
     });
   },*/
-  
+
   /*
   transferToken: function() {
     //var electionInstance;
