@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <script src="jslibs/polyfill.min.js"></script>
+	  <script src="jslibs/vue.min.js"></script>
+	  <script src="jslibs/vuetify.min.js"></script>
+	  <script src="jslibs/lodash.min.js"></script>
+	  <link rel="stylesheet" href="jslibs/iconfont/material-icons.css">
+	  <link rel="stylesheet" href="jslibs/vuetify.min.css">
+    <title>Election Results</title>
+  </head>
+  <body>
+    <div id="app" class="container" style="width: 650px;">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="text-center">Election Results</h1>
+          <h3 class="text-center">{{message}}<h3>
+          <hr/>
+          <br/>
+          <div v-if="loading">
+            <p class="text-center">Loading...</p>
+            <button v-on:click="render()">Click to Start<button>
+          </div>
+          <div v-if="loading===false">
+            <candidates-results v-bind:results="results"></candidates-results>
+            <div>
+              <label>Select Candidate</label>
+              <select v-model="selected_id">
+                <option v-for="result in results">{{result.id}}</option>
+              </select>
+              <button v-on:click="castVote(selected_id)">Vote</button>
+            </div>
+            <p v-bind:account="account" class="text-center">Your Account: {{account}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="jslibs/web3.min.js"></script>
+    <script src="jslibs/truffle-contract.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
