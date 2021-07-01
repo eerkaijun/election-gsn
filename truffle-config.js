@@ -39,12 +39,12 @@ module.exports = {
       timeoutBlocks: 200,
       skipDryRun: true
     },
-    
+
   },
 
   compilers: {
     solc: {
-      version: "0.5.16"
+      version: "0.7.1"
     }
   }
 };
