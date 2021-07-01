@@ -1,5 +1,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const mnemonic = "badge hope exist real brother spread wool foster permit ignore rocket salmon";
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
+
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -11,11 +13,7 @@ module.exports = {
       network_id: "5777",
       gas: 5500000
     },
-    develop: {
-      host: "127.0.0.1",
-      port: 8545,
-      network_id: "*"
-    },
+
     ropsten: {
       provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/0842113999df48a8a354df21fe0ea695`),
       network_id: 3,       // Ropsten's id
@@ -24,6 +22,7 @@ module.exports = {
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     },
+
     rinkeby: {
       provider: () => new HDWalletProvider(mnemonic, `https://rinkeby.infura.io/v3/0842113999df48a8a354df21fe0ea695`),
       network_id: 4,
@@ -32,6 +31,15 @@ module.exports = {
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     },
+
+    matic: {
+      provider: () => new HDWalletProvider(mnemonic, `https://rpc-mumbai.matic.today`),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    
   },
 
   compilers: {
