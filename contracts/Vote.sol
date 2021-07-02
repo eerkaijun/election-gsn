@@ -35,4 +35,8 @@ contract Vote is Ownable {
     candidates[_candidateID].voteCount++;
   }
 
+  function getVoteCount(uint _candidateID) public view returns (uint){
+    return candidates[_candidateID].voteCount;
+  }
+
 }
