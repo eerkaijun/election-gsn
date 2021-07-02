@@ -13,7 +13,9 @@
   "author": "Kai Jun Eer",
   "license": "ISC",
   "devDependencies": {
-    "@openzeppelin/contracts": "^4.2.0"
+    "@opengsn/gsn": "^2.1.0",
+    "@openzeppelin/contracts": "^4.2.0",
+    "erc725": "^1.0.0-beta.17"
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.2.0",
