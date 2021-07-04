@@ -10,7 +10,7 @@ contract Vote is Ownable {
   using SafeMath for uint;
 
   struct Candidate {
-    string Name;
+    string name;
     uint voteCount;
   }
 
@@ -33,6 +33,10 @@ contract Vote is Ownable {
     require(_candidateID >= 0 && _candidateID < candidatesCount);
     voters[msg.sender] = true;
     candidates[_candidateID].voteCount++;
+  }
+
+  function getCandidateName(uint _candidateID) public view returns (string memory) {
+    return candidates[_candidateID].name;
   }
 
   function getVoteCount(uint _candidateID) public view returns (uint){
