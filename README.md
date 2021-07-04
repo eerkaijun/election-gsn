@@ -1,6 +1,7 @@
-# election-gsn
+# Blockchain E-voting System
 
-Experimental blockchain to learn various concepts: 
-- truffle deployment workflow
-- gas station network
-- using reactive vue framework for client side application
+A blockchain e-voting proof-of-concept (PoC) to ensure transparency and immutability.
+
+### Gas Station Network
+
+Coming soon! 
