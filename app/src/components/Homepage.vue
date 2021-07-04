@@ -31,10 +31,56 @@
 </template>
 
 <script>
+
+import VoteABI from '../abi/Vote';
+const Web3 = require('web3');
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data() {
+    return {
+      web3: null,
+      contract: null,
+      account: '0x0',
+    }
+  },
+
+  async mounted() {
+    console.log("Starting up!");
+    this.initProvider();
+    this.initContract();
+  },
+
+  methods: {
+
+    async initProvider() {
+      if (window.ethereum) {
+        this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
+        console.log("Current web3 version:",this.web3.version);
+        let accounts = await this.web3.eth.getAccounts();
+        this.account = accounts[0];
+        console.log("Current connected account:",this.account);
+      } else {
+        console.log("Please install Metamask to continue.");
+      }
+
+      setInterval(async() => {
+        //check whether account is changed at every one second interval
+        let updated;
+        updated = await this.web3.eth.getAccounts();
+        if (updated[0] !== this.account) {
+          this.account = updated[0];
+        }
+      }, 1000);
+    },
+
+    async initContract() {
+      const contractAddress = "0xa0Ee8e2cFf37883a83788f0a33DeBBa1e71310B5"; //ropsten testnet
+      this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
+    },
   }
 }
 </script>
