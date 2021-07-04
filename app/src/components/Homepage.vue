@@ -6,6 +6,11 @@
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
+    <h3>Candidates</h3>
+    <ul>
+      <li>{{ candidate1 }}</li>
+      <li>{{ candidate2 }}</li>
+    </ul>
     <h3>Installed CLI Plugins</h3>
     <ul>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
@@ -45,6 +50,8 @@ export default {
       web3: null,
       contract: null,
       account: '0x0',
+      candidate1: '',
+      candidate2: ''
     }
   },
 
@@ -78,9 +85,13 @@ export default {
     },
 
     async initContract() {
-      const contractAddress = "0xa0Ee8e2cFf37883a83788f0a33DeBBa1e71310B5"; //ropsten testnet
+      const contractAddress = "0x474F8eBacD6341B4E6e44018D5eDa65687D72Fbd"; //ropsten testnet
       this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
+      // hardcoded - to be improved in the future
+      this.candidate1 = await this.contract.methods.getCandidateName(0).call();
+      this.candidate2 = await this.contract.methods.getCandidateName(1).call();
     },
+
   }
 }
 </script>
