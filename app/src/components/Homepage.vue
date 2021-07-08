@@ -3,8 +3,8 @@
     <h1>{{ msg }}</h1>
     <h3>Candidates</h3>
     <ul>
-      <li>{{ candidate1 }}</li>
-      <li>{{ candidate2 }}</li>
+      <li>{{ candidate1 }}<br><button v-on:click="vote(0)">Vote</button></li>
+      <li>{{ candidate2 }}<br><button v-on:click="vote(1)">Vote</button></li>
     </ul>
     <h3>Ecosystem</h3>
     <ul>
@@ -73,6 +73,11 @@ export default {
       this.candidate1 = await this.contract.methods.getCandidateName(0).call();
       this.candidate2 = await this.contract.methods.getCandidateName(1).call();
     },
+
+    async vote(candidateID) {
+      await this.contract.methods.vote(candidateID).send({from:this.account});
+      console.log("Voted successfully!");
+    }
 
   }
 }
