@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.7.6;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@opengsn/contracts/src/BaseRelayRecipient.sol";
 
-contract Vote is Ownable {
-
-  using SafeMath for uint;
+contract Vote is BaseRelayRecipient {
 
   struct Candidate {
     string name;
@@ -15,6 +12,8 @@ contract Vote is Ownable {
   }
 
   constructor() {
+    //trustedForwarder = 0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB; // Ropsten testnet
+    trustedForwarder = 0x4d4581c01A457925410cd3877d17b2fd4553b2C5; // Mumbai testnet
     addCandidate("Donald Trump");
     addCandidate("Kanye West");
   }
@@ -29,9 +28,9 @@ contract Vote is Ownable {
   }
 
   function vote(uint _candidateID) public {
-    require(!voters[msg.sender]);
+    require(!voters[_msgSender()]);
     require(_candidateID >= 0 && _candidateID < candidatesCount);
-    voters[msg.sender] = true;
+    voters[_msgSender()] = true;
     candidates[_candidateID].voteCount++;
   }
 
@@ -41,6 +40,10 @@ contract Vote is Ownable {
 
   function getVoteCount(uint _candidateID) public view returns (uint){
     return candidates[_candidateID].voteCount;
+  }
+
+  function versionRecipient() external pure override returns (string memory) {
+    return "2.2.0";
   }
 
 }

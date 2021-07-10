@@ -33,7 +33,7 @@ module.exports = {
     },
 
     matic: {
-      provider: () => new HDWalletProvider(mnemonic, `https://rpc-mumbai.matic.today`),
+      provider: () => new HDWalletProvider(mnemonic, `https://rpc-mumbai.maticvigil.com/`),
       network_id: 80001,
       confirmations: 2,
       timeoutBlocks: 200,
@@ -44,7 +44,7 @@ module.exports = {
 
   compilers: {
     solc: {
-      version: "0.8.1"
+      version: "0.7.6"
     }
   }
 };
