@@ -21,6 +21,17 @@
 
 import VoteABI from '../abi/Vote';
 const Web3 = require('web3');
+const { RelayProvider } = require('@opengsn/provider');
+
+// Mumbai accept-everything paymaster
+const paymasterAddress = "0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A";
+const gsnConfig = {
+    paymasterAddress,
+    loggerConfiguration: {
+        logLevel: 'debug',
+        //loggerUrl: 'logger.opengsn.org',
+    }
+};
 
 export default {
   name: 'HelloWorld',
@@ -40,18 +51,30 @@ export default {
   async mounted() {
     console.log("Starting up!");
     this.initProvider();
-    this.initContract();
   },
 
   methods: {
 
     async initProvider() {
       if (window.ethereum) {
-        this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
+        // with GSN
+        const provider = await RelayProvider.newProvider({ provider: window.ethereum, gsnConfig }).init();
+        this.web3 = new Web3(provider);
+
+        // without GSN
+        //this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
+
         console.log("Current web3 version:",this.web3.version);
+
         let accounts = await this.web3.eth.getAccounts();
         this.account = accounts[0];
         console.log("Current connected account:",this.account);
+
+        const contractAddress = "0x49eD008F98cf8E9Bf5033d33002ac63c15A36829"; //mumbai testnet
+        this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
+        this.candidate1 = await this.contract.methods.getCandidateName(0).call();
+        this.candidate2 = await this.contract.methods.getCandidateName(1).call();
+
       } else {
         console.log("Please install Metamask to continue.");
       }
@@ -64,14 +87,6 @@ export default {
           this.account = updated[0];
         }
       }, 1000);
-    },
-
-    async initContract() {
-      const contractAddress = "0x474F8eBacD6341B4E6e44018D5eDa65687D72Fbd"; //ropsten testnet
-      this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
-      // hardcoded - to be improved in the future
-      this.candidate1 = await this.contract.methods.getCandidateName(0).call();
-      this.candidate2 = await this.contract.methods.getCandidateName(1).call();
     },
 
     async vote(candidateID) {
