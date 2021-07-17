@@ -12,8 +12,8 @@ contract Vote is BaseRelayRecipient {
   }
 
   constructor() {
-    trustedForwarder = 0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB; // Ropsten testnet
-    //trustedForwarder = 0x4d4581c01A457925410cd3877d17b2fd4553b2C5; // Mumbai testnet
+    //trustedForwarder = 0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB; // Ropsten testnet
+    trustedForwarder = 0x4d4581c01A457925410cd3877d17b2fd4553b2C5; // Mumbai testnet
     addCandidate("Donald Trump");
     addCandidate("Kanye West");
   }

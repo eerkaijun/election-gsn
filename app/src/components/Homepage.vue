@@ -23,10 +23,12 @@ import VoteABI from '../abi/Vote';
 const Web3 = require('web3');
 const { RelayProvider } = require('@opengsn/provider');
 
-// Ropsten accept-everything paymaster
-const paymasterAddress = "0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8";
-// Mumbai accept-everything paymaster
+// Ropsten accept-everything paymaster (pre-deployed)
+//const paymasterAddress = "0x05319d82fa69EA8434A967CdF4A2699Db4Ff40e8";
+// Mumbai accept-everything paymaster (pre-deployed)
 //const paymasterAddress = "0xcA94aBEdcC18A10521aB7273B3F3D5ED28Cf7B8A";
+// Mumbai accept-everything paymaster (self-deployed)
+const paymasterAddress = "0x627Ed19358C1b8194eb49c6e7Cfe538Be1C73d2c";
 const gsnConfig = {
     paymasterAddress,
     loggerConfiguration: {
@@ -72,8 +74,8 @@ export default {
         this.account = accounts[0];
         console.log("Current connected account:",this.account);
 
-        const contractAddress = "0xB84D7C7241E5C3acA5fBE63c12F40a3697891C64"; //ropsten testnet
-        //const contractAddress = "0x49eD008F98cf8E9Bf5033d33002ac63c15A36829"; //mumbai testnet
+        //const contractAddress = "0xB84D7C7241E5C3acA5fBE63c12F40a3697891C64"; //ropsten testnet
+        const contractAddress = "0x49eD008F98cf8E9Bf5033d33002ac63c15A36829"; //mumbai testnet
         this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
         this.candidate1 = await this.contract.methods.getCandidateName(0).call();
         this.candidate2 = await this.contract.methods.getCandidateName(1).call();
