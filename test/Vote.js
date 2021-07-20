@@ -7,7 +7,9 @@ contract("Vote", (accounts) => {
     contractInstance = await Vote.new();
   });
 
-  it("User should be able to vote", async() => {
+  it("User should be able to vote after registering has its identity verified", async() => {
+    await contractInstance.register("Kai Jun", "020299", {from:user});
+    await contractInstance.verify(user, {from:owner});
     const result = await contractInstance.vote(0, {from:user});
     assert.equal(result.receipt.status, true);
     const voteCount = await contractInstance.getVoteCount(0);
