@@ -3,8 +3,9 @@
 pragma solidity ^0.7.6;
 
 import "@opengsn/contracts/src/BaseRelayRecipient.sol";
+import "./Identity.sol";
 
-contract Vote is BaseRelayRecipient {
+contract Vote is BaseRelayRecipient, Identity {
 
   struct Candidate {
     string name;
@@ -20,7 +21,7 @@ contract Vote is BaseRelayRecipient {
 
   uint candidatesCount = 0;
   mapping(uint => Candidate) public candidates;
-  mapping(address => bool) public voters;
+  //mapping(address => bool) public voters;
 
   function addCandidate(string memory _name) private {
     candidates[candidatesCount] = Candidate(_name, 0);
@@ -28,9 +29,10 @@ contract Vote is BaseRelayRecipient {
   }
 
   function vote(uint _candidateID) public {
-    require(!voters[_msgSender()]);
+    require(voters[_msgSender()].verified);
+    require(!voters[_msgSender()].voted);
     require(_candidateID >= 0 && _candidateID < candidatesCount);
-    voters[_msgSender()] = true;
+    voters[_msgSender()].voted = true;
     candidates[_candidateID].voteCount++;
   }
 
