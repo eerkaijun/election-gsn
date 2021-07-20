@@ -33,9 +33,10 @@ const gsnConfig = {
     paymasterAddress,
     loggerConfiguration: {
         logLevel: 'debug',
-        //loggerUrl: 'logger.opengsn.org',
+        loggerUrl: 'logger.opengsn.org',
     }
 };
+const useGSN = false; //boolean to indicate whether user needs to pay their own gas
 
 export default {
   name: 'HelloWorld',
@@ -61,12 +62,16 @@ export default {
 
     async initProvider() {
       if (window.ethereum) {
-        // with GSN
-        const provider = await RelayProvider.newProvider({ provider: window.ethereum, gsnConfig }).init();
-        this.web3 = new Web3(provider);
 
-        // without GSN
-        //this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
+        if (useGSN) {
+          // with GSN
+          console.log("Sponsoring gas fee through gas station network~~");
+          const provider = await RelayProvider.newProvider({ provider: window.ethereum, gsnConfig }).init();
+          this.web3 = new Web3(provider);
+        } else {
+          // without GSN
+          this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
+        }
 
         console.log("Current web3 version:",this.web3.version);
 
