@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.jpg">
-    <Registration v-if="registered==false" msg="Please register yourself"/>
-    <HelloWorld v-if="registered" msg="Welcome to the e-voting system"/>
+    <Registration  msg="Please register yourself"/>
+    <HelloWorld msg="Welcome to the e-voting system"/>
   </div>
 </template>
 
@@ -16,12 +16,6 @@ export default {
     HelloWorld,
     Registration
   },
-  data() {
-    return {
-      registered: false
-    }
-  },
-
 }
 </script>
 

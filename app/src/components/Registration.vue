@@ -26,7 +26,6 @@ export default {
   name: 'Registration',
   props: {
     msg: String,
-    registered: Boolean
   },
   data() {
     return {
@@ -80,7 +79,6 @@ export default {
       if (result) {
         console.log("Registered successfully");
         this.display = "Successful!"
-        this.registered = true;
       } else {
         this.display = "Something went wrong, please try again.";
       }
