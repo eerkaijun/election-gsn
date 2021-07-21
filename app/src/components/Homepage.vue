@@ -28,7 +28,7 @@ const gsnConfig = {
         loggerUrl: 'logger.opengsn.org',
     }
 };
-const useGSN = false; //boolean to indicate whether user needs to pay their own gas
+const useGSN = true; //boolean to indicate whether user needs to pay their own gas
 
 export default {
   name: 'HelloWorld',
@@ -47,7 +47,8 @@ export default {
 
   async mounted() {
     console.log("Starting up!");
-    this.initProvider();
+    await this.initProvider();
+    console.log("Successfully initialised");
   },
 
   methods: {
