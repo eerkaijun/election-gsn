@@ -28,7 +28,7 @@ const gsnConfig = {
         loggerUrl: 'logger.opengsn.org',
     }
 };
-const useGSN = true; //boolean to indicate whether user needs to pay their own gas
+const useGSN = false; //boolean to indicate whether user needs to pay their own gas
 
 export default {
   name: 'HelloWorld',
@@ -73,7 +73,7 @@ export default {
         console.log("Current connected account:",this.account);
 
         //const contractAddress = "0xB84D7C7241E5C3acA5fBE63c12F40a3697891C64"; //ropsten testnet
-        const contractAddress = "0x81E2cb23446745772b8cF4D3298DE054D84A4a27"; //mumbai testnet
+        const contractAddress = "0xB84D7C7241E5C3acA5fBE63c12F40a3697891C64"; //mumbai testnet
         this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
         this.candidate1 = await this.contract.methods.getCandidateName(0).call();
         this.candidate2 = await this.contract.methods.getCandidateName(1).call();
