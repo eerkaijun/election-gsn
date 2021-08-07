@@ -13,6 +13,7 @@
 
 import VoteABI from '../abi/Vote';
 const Web3 = require('web3');
+import {Biconomy} from "@biconomy/mexa";
 
 export default {
   name: 'Registration',
@@ -22,6 +23,7 @@ export default {
   data() {
     return {
       web3: null,
+      biconomy: null,
       contract: null,
       account: '0x0',
       display: '',
@@ -40,15 +42,25 @@ export default {
     async initProvider() {
       if (window.ethereum) {
 
-        this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
+        this.biconomy = new Biconomy(window.ethereum,{apiKey: "Pj7HMFUMB.15802489-8c48-4782-a908-bf1846da7d46", debug: true});
+        this.web3 = new Web3(this.biconomy);
+
+        //this.web3 = new Web3(window.ethereum); //force it to version 1.3.0
         console.log("Current web3 version:",this.web3.version);
 
         let accounts = await this.web3.eth.getAccounts();
         this.account = accounts[0];
         console.log("Current connected account:",this.account);
 
-        //const contractAddress = "0xB84D7C7241E5C3acA5fBE63c12F40a3697891C64"; //ropsten testnet
-        const contractAddress = "0x81E2cb23446745772b8cF4D3298DE054D84A4a27"; //mumbai testnet
+        this.biconomy.onEvent(this.biconomy.READY, () => {
+          // Initialize your dapp here once ready
+          console.log("Biconomy initialised successfully");
+        }).onEvent(this.biconomy.ERROR, (error) => {
+          // Handle error while initializing mexa
+          console.log("Error initialising Biconomy: ", error);
+        });
+
+        const contractAddress = "0xB84D7C7241E5C3acA5fBE63c12F40a3697891C64"; //mumbai testnet
         this.contract = await new this.web3.eth.Contract(VoteABI, contractAddress);
 
       } else {
@@ -67,9 +79,10 @@ export default {
 
     async register() {
       console.log("Test: ", this.name);
-      const result = await this.contract.methods.register(this.name, this.nationalID).send({from:this.account});
+      const result = await this.contract.methods.register(this.name, this.nationalID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
       if (result) {
         console.log("Registered successfully");
+        alert("Registered successfully");
         this.display = "Successful!"
       } else {
         this.display = "Something went wrong, please try again.";

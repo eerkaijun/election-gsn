@@ -2,10 +2,9 @@
 
 pragma solidity ^0.7.6;
 
-import "@opengsn/contracts/src/BaseRelayRecipient.sol";
 import "./Identity.sol";
 
-contract Vote is BaseRelayRecipient, Identity {
+contract Vote is Identity {
 
   struct Candidate {
     string name;
@@ -13,8 +12,6 @@ contract Vote is BaseRelayRecipient, Identity {
   }
 
   constructor() {
-    //trustedForwarder = 0xeB230bF62267E94e657b5cbE74bdcea78EB3a5AB; // Ropsten testnet
-    trustedForwarder = 0x4d4581c01A457925410cd3877d17b2fd4553b2C5; // Mumbai testnet
     addCandidate("Donald Trump");
     addCandidate("Kanye West");
   }
@@ -42,10 +39,6 @@ contract Vote is BaseRelayRecipient, Identity {
 
   function getVoteCount(uint _candidateID) public view returns (uint){
     return candidates[_candidateID].voteCount;
-  }
-
-  function versionRecipient() external pure override returns (string memory) {
-    return "2.2.0";
   }
 
 }
