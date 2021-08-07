@@ -82,6 +82,7 @@ export default {
       const result = await this.contract.methods.register(this.name, this.nationalID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
       if (result) {
         console.log("Registered successfully");
+        alert("Registered successfully");
         this.display = "Successful!"
       } else {
         this.display = "Something went wrong, please try again.";

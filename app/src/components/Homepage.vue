@@ -82,6 +82,7 @@ export default {
     async vote(candidateID) {
       await this.contract.methods.vote(candidateID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
       console.log("Voted successfully!");
+      alert("Voted successfully");
     }
 
   }
