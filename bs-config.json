@@ -1,5 +1,0 @@
-{
-  "server": {
-    "baseDir": ["./vuejs", "./build/contracts"]
-  }
-}
