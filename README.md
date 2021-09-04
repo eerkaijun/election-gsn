@@ -17,4 +17,4 @@ yarn serve
 
 ### Deployed instance
 
-Visit [here] (https://web-hosting-6bbb1.web.app) to try out a deployed version. 
+Visit https://web-hosting-6bbb1.web.app to try out a deployed version. 
