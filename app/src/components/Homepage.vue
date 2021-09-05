@@ -7,6 +7,7 @@
       <li>{{ candidate1 }}<br><button v-on:click="vote(0)">Vote</button></li>
       <li>{{ candidate2 }}<br><button v-on:click="vote(1)">Vote</button></li>
     </ul>
+    <h5 v-if="display">Status: {{ display }}</h5>
   </div>
 </template>
 
@@ -24,7 +25,8 @@ export default {
   data() {
     return {
       candidate1: '',
-      candidate2: ''
+      candidate2: '',
+      display: ''
     }
   },
 
@@ -38,9 +40,16 @@ export default {
     },
 
     async vote(candidateID) {
-      await this.contract.methods.vote(candidateID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
-      console.log("Voted successfully!");
-      alert("Voted successfully");
+      try {
+        this.display = "Recording vote on blockchain...";
+        await this.contract.methods.vote(candidateID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
+        console.log("Voted successfully!");
+        this.display = "Successful!";
+        alert("Voted successfully");
+      } catch(error) {
+        alert("Your identity is not verified yet.");
+        this.display = '';
+      }
     }
 
   }

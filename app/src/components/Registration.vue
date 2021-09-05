@@ -6,6 +6,7 @@
     <label>National ID: </label>
     <input type="text" v-model="nationalID"><br><br>
     <button v-on:click="register()">Register</button>
+    <h5 v-if="display">Status: {{ display }}</h5>
   </div>
 </template>
 
@@ -32,14 +33,11 @@ export default {
 
     async register() {
       console.log("Test: ", this.name);
-      const result = await this.contract.methods.register(this.name, this.nationalID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
-      if (result) {
-        console.log("Registered successfully");
-        alert("Registered successfully");
-        this.display = "Successful!"
-      } else {
-        this.display = "Something went wrong, please try again.";
-      }
+      this.display = "Registering...";
+      await this.contract.methods.register(this.name, this.nationalID).send({from:this.account, signatureType: this.biconomy.EIP712_SIGN,});
+      console.log("Registered successfully");
+      alert("Registered successfully");
+      this.display = "Successful!"
     }
 
   }
